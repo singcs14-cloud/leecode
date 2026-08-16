@@ -11,25 +11,22 @@
  */
 class Solution {
 public:
-    int height(TreeNode* cur , int h){
-        
-        if(!cur)return h;
-        h++;
-        cout << cur->val <<" "<<h <<"\n";
-        int ha=0,hb=0;
-        ha = height(cur->left , h);
-        hb = height(cur->right , h);
-        cout <<"ha: "<< ha <<" hb: "<<hb <<"\n";
-        return max(ha,hb);
+    int height(TreeNode* cur ){
+        if(!cur)return 0;
+
+        int left = height(cur->left);
+        if(left == -1)return -1;
+        int right = height(cur->right);
+        if(right == -1)return -1;
+
+        if(abs(left - right) > 1)return -1;
+        return 1 + max(left , right);
 
     }
     bool isBalanced(TreeNode* root) {
         if(!root)return true;
-        if(abs(height(root->left , 1) - height(root->right , 1)) >1  ){
-            return false;
-        }else{
-            return isBalanced(root->left) && isBalanced(root->right);
-        }
+        if(height(root) != -1)return true;
+        else return false;
     }
     
 };
